@@ -1,10 +1,11 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 # SAFE TEAM
 # distributed under license: GPL 3 License http://www.gnu.org/licenses/
 
 class SAFEEmbedder:
 
     def __init__(self, model_file):
+        tf.disable_v2_behavior()
         self.model_file = model_file
         self.session = None
         self.x_1 = None
