@@ -78,15 +78,15 @@ class Downloader:
             print("Downloading i2v model.... in the folder data/i2v/")
             if not os.path.exists(self.path_i2v):
                 os.makedirs(self.path_i2v)
-            Downloader.download_file(self.url_i2v, os.path.join(self.path_i2v,self.i2v_compress_name))
+            #Downloader.download_file(self.url_i2v, os.path.join(self.path_i2v,self.i2v_compress_name))
             print("Decompressing i2v model and placing in" + str(self.path_i2v))
-            Downloader.decompress_file(os.path.join(self.path_i2v,self.i2v_compress_name),self.path_i2v)
+            #Downloader.decompress_file(os.path.join(self.path_i2v,self.i2v_compress_name),self.path_i2v)
 
         if self.download_model:
             print("Downloading the SAFE model... in the folder data")
             if not os.path.exists(self.path_model):
                 os.makedirs(self.path_model)
-            Downloader.download_file(self.url_model, os.path.join(self.path_model,self.datasets_compress_name))
+            #Downloader.download_file(self.url_model, os.path.join(self.path_model,self.datasets_compress_name))
             #print("Decompressing SAFE model and placing in" + str(self.path_model))
             #Downloader.decompress_file(os.path.join(self.path_model,self.model_compress_name),self.path_model)
 
