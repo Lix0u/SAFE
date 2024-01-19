@@ -1,21 +1,21 @@
-import tensorflow.compat.v1 as tf
+import tensorflow.compat.v1 as tf # we need tensorflow 1 
 # SAFE TEAM
 # distributed under license: GPL 3 License http://www.gnu.org/licenses/
 
 class SAFEEmbedder:
 
     def __init__(self, model_file):
-        tf.disable_v2_behavior()
-        self.model_file = model_file
-        self.session = None
+        tf.disable_v2_behavior() # disable behavior form tensorflow 2
+        self.model_file = model_file # Safe trained model to generate function embeddings
+        self.session = None 
         self.x_1 = None
         self.adj_1 = None
         self.len_1 = None
         self.emb = None
 
     def loadmodel(self):
-        with tf.gfile.GFile(self.model_file, "rb") as f:
-            graph_def = tf.GraphDef()
+        with tf.gfile.GFile(self.model_file, "rb") as f: # GFile = file I/O wrapper without thread locking, rb = read binary
+            graph_def = tf.GraphDef() 
             graph_def.ParseFromString(f.read())
 
         with tf.Graph().as_default() as graph:
