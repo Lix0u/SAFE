@@ -9,3 +9,6 @@ tests/test_cases/test_warzone1/d565677b0818122a241235109dc8ed5b69983f0fb231dabe6
 data/i2v.tar.bz2
 data/safe.pb
 tests/test_cases/test_warzone1/0bb084679cd7cc438060f3767431e46a6ca4b45cead37ca807fb60856ef811bc.exe
+.idea/*
+.__pycache__/*
+.utils
