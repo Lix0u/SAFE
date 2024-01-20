@@ -43,7 +43,22 @@ class SAFE:
         embedding = self.embedder.embedd(instructions, length)
         return embedding
 
-    def add_embedding_to_db(self, embbeding, name, db_manager): 
+    def embedd_executable(self, filename):
+        analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
+        functions = analyzer.analyze()
+        instructions_list = None
+        embeddings = []
+        for function in functions:
+            instructions_list = functions[function]["filtered_instructions"]
+            converted_instructions = self.converter.convert_to_ids(instructions_list)
+            instructions, length = self.normalizer.normalize_functions(
+                [converted_instructions]
+            )
+            embedding = self.embedder.embedd(instructions, length)
+            embeddings.append(embedding)
+        return embeddings
+
+    def add_embedding_to_db(self, embbeding, name, db_manager):
         db_manager.add(name, embbeding)
 
     def check_executable(self, function_embedding, executable):
@@ -139,8 +154,12 @@ if __name__ == "__main__":
             parser.error(
                 "-f or -a are required when adding a function embedding to the database."
             )
-        if args.name in db_manager.get_all_names(): 
-            print("function" + args.name + " already in the database are you sure you want to overwrite it? (y/n)")
+        if args.name in db_manager.get_all_names():
+            print(
+                "function"
+                + args.name
+                + " already in the database are you sure you want to overwrite it? (y/n)"
+            )
             while True:
                 answer = input()
                 if answer == "y" or answer == "Y" or answer == "n" or answer == "N":
@@ -174,6 +193,8 @@ if __name__ == "__main__":
                         "-f or -a are required when comparing a function embedding if the function is not yet in the database."
                     )
                 embedding = safe.embedd_function(file, address)
-            similarity, function_address = safe.check_executable(embedding, args.executable)
+            similarity, function_address = safe.check_executable(
+                embedding, args.executable
+            )
             print(similarity[0][0])
             print(hex(function_address))
