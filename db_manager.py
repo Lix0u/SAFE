@@ -47,9 +47,11 @@ class JsonManager(Manager):
         # item is a list we convert it to a numpy array
         if key not in self.json_data:
             return None
-        item = self.json_data[key]
-        i = np.array(item)
-        return i
+        if isinstance(self.json_data[key], list):
+            item = self.json_data[key]
+            i = np.array(item)
+            return i
+        return self.json_data[key]
 
     def get_all_names(self):
         return list(self.json_data.keys())

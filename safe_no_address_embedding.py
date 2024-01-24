@@ -1,14 +1,9 @@
-import imp
-from arrow import get
-from matplotlib.pylab import f
-from numpy import add
 from sklearn.metrics.pairwise import cosine_similarity
 from asm_embedding.FunctionAnalyzerRadare import RadareFunctionAnalyzer
 from argparse import ArgumentParser, BooleanOptionalAction
 from asm_embedding.FunctionNormalizer import FunctionNormalizer
 from asm_embedding.InstructionsConverter import InstructionsConverter
 from neural_network.SAFEEmbedder import SAFEEmbedder
-from utils import utils
 from db_manager import JsonManager
 import sys
 
@@ -22,7 +17,7 @@ class SAFE:
         self.embedder.get_tensor()
 
     """
-        returns the embedding vector
+        returns the embedding vector of a function
     """
 
     def embedd_function(self, filename, address):
