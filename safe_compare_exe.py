@@ -54,7 +54,7 @@ class SAFE:
         return embeddings
 
     def add_embedding_to_db(self, embbeding, name, file, address):
-        e = embbeding.tolist()
+        e = embbeding.tolist() #TODO : change counter by a list
         self.db.add(name, {"embedding": e, "count_1": 0, "count_98": 0, "count_95": 0, "count_93": 0, "count_90": 0, "file": file, "address": address})
 
     def load_db(self, path):
