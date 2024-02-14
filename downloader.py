@@ -87,17 +87,17 @@ class Downloader:
             if not os.path.exists(self.path_model):
                 os.makedirs(self.path_model)
             #Downloader.download_file(self.url_model, os.path.join(self.path_model,self.datasets_compress_name))
-            #print("Decompressing SAFE model and placing in" + str(self.path_model))
+            print("Decompressing SAFE model and placing in" + str(self.path_model))
             #Downloader.decompress_file(os.path.join(self.path_model,self.model_compress_name),self.path_model)
 
-        if self.download_train:
-            print("Downloading the train data.... in the folder data")
-            if not os.path.exists(self.path_train_data):
-                os.makedirs(self.path_train_data)
-            for i,x in enumerate(self.url_train):
-                print("Downloading dataset "+str(self.train_name[i]))
-                Downloader.download_file(x, os.path.join(self.path_train_data,self.train_name[i]))
-            #print("Decompressing the train data and placing in" + str(self.path_train_data))
+        #if self.download_train:
+         #   print("Downloading the train data.... in the folder data")
+            #if not os.path.exists(self.path_train_data):
+              #  os.makedirs(self.path_train_data)
+            #for i,x in enumerate(self.url_train):
+               # print("Downloading dataset "+str(self.train_name[i]))
+             #   Downloader.download_file(x, os.path.join(self.path_train_data,self.train_name[i]))
+           # print("Decompressing the train data and placing in" + str(self.path_train_data))
             #Downloader.decompress_file(os.path.join(self.path_train_data,self.datasets_compress_name),self.path_train_data)
 
 if __name__=='__main__':
