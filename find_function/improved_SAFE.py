@@ -4,13 +4,13 @@ from argparse import ArgumentParser, BooleanOptionalAction
 from asm_embedding.FunctionNormalizer import FunctionNormalizer
 from asm_embedding.InstructionsConverter import InstructionsConverter
 from neural_network.SAFEEmbedder import SAFEEmbedder
-from db_manager import JsonManager
+from find_function.manage_db.db_manager import JsonManager
 import sys
 
 
 class SAFE:
     def __init__(self, model):
-        self.converter = InstructionsConverter("data/i2v/word2id.json")
+        self.converter = InstructionsConverter("data/i2v/word2id.json") 
         self.normalizer = FunctionNormalizer(max_instruction=150)
         self.embedder = SAFEEmbedder(model)
         self.embedder.loadmodel()
@@ -22,7 +22,7 @@ class SAFE:
 
     def embedd_function(self, filename, address):
         analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
-        functions = analyzer.analyze()
+        functions = analyzer.analyze(address)
         instructions_list = None
         for function in functions:
             if functions[function]["address"] == address:
@@ -78,8 +78,27 @@ class SAFE:
             return None
 
         return max_similarity, address
-
-
+    
+    def get_embeddings(self, filename):
+            analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
+            functions = analyzer.analyze()
+            embeddings = {}
+            for function in functions:
+                instructions_list = functions[function]["filtered_instructions"]
+                converted_instructions = self.converter.convert_to_ids(
+                    instructions_list
+                )
+                instructions, length = self.normalizer.normalize_functions(
+                    [converted_instructions]
+                )
+                embedding = self.embedder.embedd(instructions, length)
+                # use the function address in hexadecimal to easily find the function if needed
+                embeddings[hex(functions[function]["address"])] = {
+                    "embedding": embedding.tolist(),
+                    "address": functions[function]["address"]
+                }
+            return embeddings
+        
 if __name__ == "__main__":
     # utils.print_safe()
 
@@ -138,7 +157,7 @@ if __name__ == "__main__":
         address = int(args.address, 16)
 
     if args.db is None:
-        db_path = "db.json"
+        db_path = "SAFE/find_function/manage_db/db.json" #TODO check this path
     else:
         db_path = args.db
 

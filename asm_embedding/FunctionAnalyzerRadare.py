@@ -150,6 +150,7 @@ class RadareFunctionAnalyzer:
             function_list = json.loads(self.r2.cmd("aflj"))
         except:
             function_list = []
+        f = list(map(lambda x: x["offset"], function_list))
         return function_list
 
     def find_functions_by_symbols(self):
@@ -159,14 +160,44 @@ class RadareFunctionAnalyzer:
             fcn_symb = [s for s in symbols if s["type"] == "FUNC"]
         except:
             fcn_symb = []
+        print("a")
+        f = list(map(lambda x: x["vaddr"], fcn_symb))
         return fcn_symb
+    
+    def find_hidden_functions(self, functions):
+        hidden_functions = []
+        if self.use_symbol:
+            functions_start = list(map(lambda x: x["vaddr"], functions))
+            functions_end = [f["size"] + f["vaddr"] for f in functions]
+        else:
+            functions_start = list(map(lambda x: x["offset"], functions))
+            functions_end = [f["realsz"] + f["offset"] for f in functions]
+        functions_start.sort()
+        functions_end.sort()
+        #try to find the next instruction after the end of the function
+        self.r2.cmd("s " + str(functions_end[83]))
+        self.r2.cmd("so 1")
+        info = json.loads(self.r2.cmd("afij"))
+        return hidden_functions
+        
+        
 
-    def analyze(self):
+    def analyze(self, address=None):
         if self.use_symbol:
             function_list = self.find_functions_by_symbols()
         else:
             function_list = self.find_functions()
-
+        if address is not None:
+            if self.use_symbol:
+                start_function_list = list(
+                    filter(lambda x: x["vaddr"] == address, function_list)
+                )
+            else:
+                start_function_list = list(
+                    filter(lambda x: x["offset"] == address, function_list)
+                )
+            if len(start_function_list) == 0:
+                hf = self.find_hidden_functions(function_list)
         functions_dict = {}
         if self.top_depth > 0:
             for my_function in function_list:

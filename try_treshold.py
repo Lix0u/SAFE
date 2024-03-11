@@ -1,8 +1,8 @@
 from matplotlib.pylab import f
 import numpy as np
-from safe_no_address_embedding import SAFE
+from SAFE.improved_SAFE import SAFE
 from argparse import ArgumentParser
-from db_manager import JsonManager
+from SAFE.find_function.manage_db.db_manager import JsonManager
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Safe Embedder")

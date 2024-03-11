@@ -1,17 +1,15 @@
-import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from asm_embedding.FunctionAnalyzerRadare import RadareFunctionAnalyzer
-from argparse import ArgumentParser, BooleanOptionalAction
-from asm_embedding.FunctionNormalizer import FunctionNormalizer
-from asm_embedding.InstructionsConverter import InstructionsConverter
-from neural_network.SAFEEmbedder import SAFEEmbedder
-from db_manager import JsonManager
-import sys
+from SAFE.asm_embedding.FunctionAnalyzerRadare import RadareFunctionAnalyzer
+from argparse import ArgumentParser
+from SAFE.asm_embedding.FunctionNormalizer import FunctionNormalizer
+from SAFE.asm_embedding.InstructionsConverter import InstructionsConverter
+from SAFE.neural_network.SAFEEmbedder import SAFEEmbedder
+from SAFE.find_function.manage_db.db_manager import JsonManager
 import os
 
 class SAFE:
     def __init__(self, model):
-        self.converter = InstructionsConverter("data/i2v/word2id.json")
+        self.converter = InstructionsConverter("data/i2v/word2id.json") #TODO check this path
         self.normalizer = FunctionNormalizer(max_instruction=150)
         self.embedder = SAFEEmbedder(model)
         self.embedder.loadmodel()
