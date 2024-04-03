@@ -12,7 +12,7 @@ import psutil
 
 def kill_radare_process():
     for proc in psutil.process_iter():
-        if proc.name() == "radare2":
+        if proc.name() == "radare2" and proc.ppid() == os.getpid():
             proc.kill()
 
 def find_threshold(folder, binary, address, output, debug):
@@ -22,7 +22,7 @@ def find_threshold(folder, binary, address, output, debug):
     else:
         thresholds = {1: 0, 0.98: 0, 0.95: 0, 0.93: 0, 0.90: 0}
 
-    embedding = safe.embedd_function(os.path.join(folder, binary), address)
+    embedding = safe.embed_function(os.path.join(folder, binary), address)
     if embedding is None:
         print("Function not found")
         exit(1)
@@ -69,6 +69,7 @@ def find_threshold(folder, binary, address, output, debug):
         else:
             final_threshold = threshold
     print("Final threshold: " + str(final_threshold))
+    return final_threshold
 
 if __name__ == '__main__':
     arg_parser = ArgumentParser()

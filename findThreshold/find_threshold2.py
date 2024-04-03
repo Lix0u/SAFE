@@ -7,6 +7,12 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 from find_function.improved_SAFE import SAFE
 import json
 from sklearn.metrics.pairwise import cosine_similarity
+import psutil
+
+def kill_radare_process():
+    for proc in psutil.process_iter():
+        if proc.name() == "radare2" and proc.ppid() == os.getpid():
+            proc.kill()
 
 if __name__ == '__main__':
     arg_parser = ArgumentParser()
@@ -31,10 +37,14 @@ if __name__ == '__main__':
     
     safe = SAFE("data/safe.pb")
     thresholds = {1: [], 0.98: [], 0.95: [], 0.93: [], 0.90: []}
-    embedding = safe.embedd_function(os.path.join(folder, binary), address)
-    for file in os.listdir(folder):
+    embedding = safe.embed_function(os.path.join(folder, binary), address)
+    kill_radare_process()
+    files = os.listdir(folder)
+    files.sort()
+    for file in files:
         print("Processing file: " + file)
         embeddings = safe.get_embeddings(os.path.join(folder, file))
+        kill_radare_process()
         for emb in embeddings.keys():
             sim = cosine_similarity(np.array(embedding), np.array(embeddings[emb]['embedding']))
             for threshold in thresholds.keys():

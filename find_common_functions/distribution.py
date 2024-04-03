@@ -24,7 +24,7 @@ plt.savefig("distribution.png")
 plt.clf()
 
 
-# remove all functions with less than 10 instructions
+# remove all functions with less than 25 instructions
 filtered_functions = list(filter(lambda x: len(x["filtered_instructions"]) > 25, functions.values()))
 filtered_n_instructions = list(map(lambda x: len(x["filtered_instructions"]), filtered_functions))
 plt.hist(filtered_n_instructions, bins=np.arange(0, max(filtered_n_instructions), 1), alpha=0.75)

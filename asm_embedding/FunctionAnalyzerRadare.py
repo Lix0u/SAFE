@@ -2,6 +2,7 @@
 # Copyright (C) 2019  Luca Massarelli, Giuseppe Antonio Di Luna, Fabio Petroni, Leonardo Querzoni, Roberto Baldoni
 
 import json
+from matplotlib.pylab import f
 import r2pipe
 
 
@@ -222,12 +223,12 @@ class RadareFunctionAnalyzer:
                     "asm": asm,
                     "address": address,
                 }
-            except:
-                print(
-                    "Error in functions: {} from {}".format(
-                        my_function["name"], self.filename
-                    )
-                )
+            except:# sometimes radare2 flag as function a non-function
+                # print(
+                #     "Error in functions: {} from {}".format(
+                #         my_function["name"], self.filename
+                #     )
+                # )
                 pass
         return result
 

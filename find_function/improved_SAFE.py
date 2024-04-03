@@ -20,7 +20,7 @@ class SAFE:
         returns the embedding vector of a function
     """
 
-    def embedd_function(self, filename, address):
+    def embed_function(self, filename, address):
         analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
         functions = analyzer.analyze(address)
         instructions_list = None
@@ -79,25 +79,48 @@ class SAFE:
 
         return max_similarity, address
     
+    def get_embeddings_instruction_threshold(self, filename, instruction_threshold):
+        analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
+        functions = analyzer.analyze()
+        embeddings = {}
+        for function in functions:
+            if len(functions[function]["filtered_instructions"]) <= instruction_threshold:
+                continue
+            instructions_list = functions[function]["filtered_instructions"]
+            converted_instructions = self.converter.convert_to_ids(
+                instructions_list
+            )
+            instructions, length = self.normalizer.normalize_functions(
+                [converted_instructions]
+            )
+            embedding = self.embedder.embedd(instructions, length)
+            # use the function address in hexadecimal to easily find the function if needed
+            embeddings[hex(functions[function]["address"])] = {
+                "embedding": embedding.tolist(),
+                "address": functions[function]["address"],
+                "n_instructions": len(instructions_list)
+            }
+        return embeddings
+    
     def get_embeddings(self, filename):
-            analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
-            functions = analyzer.analyze()
-            embeddings = {}
-            for function in functions:
-                instructions_list = functions[function]["filtered_instructions"]
-                converted_instructions = self.converter.convert_to_ids(
-                    instructions_list
-                )
-                instructions, length = self.normalizer.normalize_functions(
-                    [converted_instructions]
-                )
-                embedding = self.embedder.embedd(instructions, length)
-                # use the function address in hexadecimal to easily find the function if needed
-                embeddings[hex(functions[function]["address"])] = {
-                    "embedding": embedding.tolist(),
-                    "address": functions[function]["address"]
-                }
-            return embeddings
+        analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
+        functions = analyzer.analyze()
+        embeddings = {}
+        for function in functions:
+            instructions_list = functions[function]["filtered_instructions"]
+            converted_instructions = self.converter.convert_to_ids(
+                instructions_list
+            )
+            instructions, length = self.normalizer.normalize_functions(
+                [converted_instructions]
+            )
+            embedding = self.embedder.embedd(instructions, length)
+            # use the function address in hexadecimal to easily find the function if needed
+            embeddings[hex(functions[function]["address"])] = {
+                "embedding": embedding.tolist(),
+                "address": functions[function]["address"]
+            }
+        return embeddings
         
 if __name__ == "__main__":
     # utils.print_safe()
@@ -181,7 +204,7 @@ if __name__ == "__main__":
                 print("please enter y or n")
             if answer != "y" and answer != "Y":
                 sys.exit(1)
-        embedding = safe.embedd_function(args.file, int(args.address, 16))
+        embedding = safe.embed_function(args.file, int(args.address, 16))
         safe.add_embedding_to_db(embedding, args.name, db_manager)
     else:
         if args.executable is None:
@@ -206,7 +229,7 @@ if __name__ == "__main__":
                     parser.error(
                         "-f or -a are required when comparing a function embedding if the function is not yet in the database."
                     )
-                embedding = safe.embedd_function(file, address)
+                embedding = safe.embed_function(file, address)
             similarity, function_address = safe.check_executable(
                 embedding, args.executable
             )

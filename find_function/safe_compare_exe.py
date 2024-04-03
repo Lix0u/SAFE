@@ -19,7 +19,7 @@ class SAFE:
         returns the embedding vector
     """
 
-    def embedd_function(self, filename, address):
+    def embed_function(self, filename, address):
         analyzer = RadareFunctionAnalyzer(filename, use_symbol=False, depth=0)
         functions = analyzer.analyze()
         instructions_list = None

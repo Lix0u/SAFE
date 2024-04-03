@@ -1,0 +1,398 @@
+{
+    "0x40d86c": {
+        "n_instr": 38,
+        "count": 95
+    },
+    "0x40119c": {
+        "n_instr": 34,
+        "count": 95
+    },
+    "0x4014d4": {
+        "n_instr": 54,
+        "count": 95
+    },
+    "0x401340": {
+        "n_instr": 37,
+        "count": 95
+    },
+    "0x40123c": {
+        "n_instr": 51,
+        "count": 95
+    },
+    "0x40141c": {
+        "n_instr": 62,
+        "count": 95
+    },
+    "0x4013a4": {
+        "n_instr": 45,
+        "count": 95
+    },
+    "0x401568": {
+        "n_instr": 48,
+        "count": 95
+    },
+    "0x4012b0": {
+        "n_instr": 65,
+        "count": 95
+    },
+    "0x401c34": {
+        "n_instr": 51,
+        "count": 95
+    },
+    "0x4020a4": {
+        "n_instr": 114,
+        "count": 95
+    },
+    "0x4019cc": {
+        "n_instr": 35,
+        "count": 135
+    },
+    "0x40179c": {
+        "n_instr": 46,
+        "count": 95
+    },
+    "0x401b84": {
+        "n_instr": 66,
+        "count": 95
+    },
+    "0x401adc": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x401b4c": {
+        "n_instr": 26,
+        "count": 95
+    },
+    "0x4015e8": {
+        "n_instr": 56,
+        "count": 95
+    },
+    "0x401d08": {
+        "n_instr": 51,
+        "count": 95
+    },
+    "0x401678": {
+        "n_instr": 96,
+        "count": 95
+    },
+    "0x401828": {
+        "n_instr": 48,
+        "count": 95
+    },
+    "0x401e20": {
+        "n_instr": 88,
+        "count": 95
+    },
+    "0x402248": {
+        "n_instr": 148,
+        "count": 95
+    },
+    "0x401f14": {
+        "n_instr": 119,
+        "count": 95
+    },
+    "0x40260c": {
+        "n_instr": 32,
+        "count": 95
+    },
+    "0x4025c4": {
+        "n_instr": 36,
+        "count": 95
+    },
+    "0x403c14": {
+        "n_instr": 71,
+        "count": 95
+    },
+    "0x404288": {
+        "n_instr": 43,
+        "count": 95
+    },
+    "0x40264c": {
+        "n_instr": 109,
+        "count": 95
+    },
+    "0x402c18": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x4027d4": {
+        "n_instr": 32,
+        "count": 95
+    },
+    "0x402b10": {
+        "n_instr": 27,
+        "count": 95
+    },
+    "0x402b6c": {
+        "n_instr": 60,
+        "count": 95
+    },
+    "0x402d6c": {
+        "n_instr": 41,
+        "count": 95
+    },
+    "0x402dd8": {
+        "n_instr": 55,
+        "count": 95
+    },
+    "0x403f0c": {
+        "n_instr": 30,
+        "count": 95
+    },
+    "0x402f1c": {
+        "n_instr": 69,
+        "count": 95
+    },
+    "0x403018": {
+        "n_instr": 44,
+        "count": 95
+    },
+    "0x403194": {
+        "n_instr": 43,
+        "count": 95
+    },
+    "0x403428": {
+        "n_instr": 45,
+        "count": 95
+    },
+    "0x404448": {
+        "n_instr": 95,
+        "count": 95
+    },
+    "0x4039fc": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x403a5c": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x403afc": {
+        "n_instr": 38,
+        "count": 95
+    },
+    "0x403b88": {
+        "n_instr": 38,
+        "count": 135
+    },
+    "0x404634": {
+        "n_instr": 39,
+        "count": 95
+    },
+    "0x403dd4": {
+        "n_instr": 29,
+        "count": 95
+    },
+    "0x40414c": {
+        "n_instr": 30,
+        "count": 95
+    },
+    "0x40251c": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x404380": {
+        "n_instr": 69,
+        "count": 95
+    },
+    "0x4045c8": {
+        "n_instr": 31,
+        "count": 135
+    },
+    "0x4018ec": {
+        "n_instr": 60,
+        "count": 95
+    },
+    "0x4032e4": {
+        "n_instr": 48,
+        "count": 95
+    },
+    "0x404240": {
+        "n_instr": 42,
+        "count": 95
+    },
+    "0x40415c": {
+        "n_instr": 27,
+        "count": 95
+    },
+    "0x405494": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x403f50": {
+        "n_instr": 47,
+        "count": 95
+    },
+    "0x402738": {
+        "n_instr": 37,
+        "count": 95
+    },
+    "0x402aa8": {
+        "n_instr": 31,
+        "count": 95
+    },
+    "0x403264": {
+        "n_instr": 27,
+        "count": 95
+    },
+    "0x403fc4": {
+        "n_instr": 61,
+        "count": 95
+    },
+    "0x40538c": {
+        "n_instr": 75,
+        "count": 95
+    },
+    "0x404f48": {
+        "n_instr": 60,
+        "count": 95
+    },
+    "0x406ca0": {
+        "n_instr": 54,
+        "count": 95
+    },
+    "0x404d78": {
+        "n_instr": 49,
+        "count": 95
+    },
+    "0x40687c": {
+        "n_instr": 31,
+        "count": 95
+    },
+    "0x406d58": {
+        "n_instr": 45,
+        "count": 95
+    },
+    "0x404048": {
+        "n_instr": 75,
+        "count": 95
+    },
+    "0x406b80": {
+        "n_instr": 59,
+        "count": 95
+    },
+    "0x404a54": {
+        "n_instr": 108,
+        "count": 95
+    },
+    "0x40504c": {
+        "n_instr": 161,
+        "count": 95
+    },
+    "0x402e58": {
+        "n_instr": 36,
+        "count": 95
+    },
+    "0x406528": {
+        "n_instr": 33,
+        "count": 95
+    },
+    "0x405cdc": {
+        "n_instr": 277,
+        "count": 95
+    },
+    "0x405520": {
+        "n_instr": 237,
+        "count": 95
+    },
+    "0x405918": {
+        "n_instr": 224,
+        "count": 95
+    },
+    "0x4064a8": {
+        "n_instr": 39,
+        "count": 95
+    },
+    "0x406a94": {
+        "n_instr": 32,
+        "count": 95
+    },
+    "0x406b00": {
+        "n_instr": 31,
+        "count": 95
+    },
+    "0x403084": {
+        "n_instr": 97,
+        "count": 95
+    },
+    "0x406a44": {
+        "n_instr": 36,
+        "count": 95
+    },
+    "0x40628c": {
+        "n_instr": 108,
+        "count": 95
+    },
+    "0x402ca8": {
+        "n_instr": 29,
+        "count": 95
+    },
+    "0x40670c": {
+        "n_instr": 96,
+        "count": 95
+    },
+    "0x40419c": {
+        "n_instr": 34,
+        "count": 95
+    },
+    "0x4041e4": {
+        "n_instr": 45,
+        "count": 95
+    },
+    "0x40659c": {
+        "n_instr": 31,
+        "count": 95
+    },
+    "0x40660c": {
+        "n_instr": 70,
+        "count": 95
+    },
+    "0x40690c": {
+        "n_instr": 76,
+        "count": 95
+    },
+    "0x40747c": {
+        "n_instr": 362,
+        "count": 95
+    },
+    "0x407c9c": {
+        "n_instr": 288,
+        "count": 95
+    },
+    "0x403d3c": {
+        "n_instr": 29,
+        "count": 95
+    },
+    "0x404e1c": {
+        "n_instr": 72,
+        "count": 95
+    },
+    "0x4081fc": {
+        "n_instr": 54,
+        "count": 95
+    },
+    "0x4011f4": {
+        "n_instr": 26,
+        "count": 1
+    },
+    "0x401dc0": {
+        "n_instr": 26,
+        "count": 1
+    },
+    "0x4037d8": {
+        "n_instr": 28,
+        "count": 1
+    },
+    "0x4031e8": {
+        "n_instr": 26,
+        "count": 1
+    },
+    "0x406df8": {
+        "n_instr": 26,
+        "count": 1
+    },
+    "0x4068b8": {
+        "n_instr": 27,
+        "count": 1
+    }
+}
