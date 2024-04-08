@@ -7,3 +7,7 @@ data/safe.pb
 .utils
 find_function/manage_db/__pycache__/*
 asm_embedding/__pycache__/*
+asm_embedding/__pycache__/__init__.cpython-310.pyc
+asm_embedding/__pycache__/FunctionAnalyzerRadare.cpython-310.pyc
+asm_embedding/__pycache__/FunctionNormalizer.cpython-310.pyc
+asm_embedding/__pycache__/InstructionsConverter.cpython-310.pyc

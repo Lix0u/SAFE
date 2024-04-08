@@ -46,7 +46,7 @@ if __name__ == '__main__':
         embeddings = safe.get_embeddings(os.path.join(folder, file))
         kill_radare_process()
         for emb in embeddings.keys():
-            sim = cosine_similarity(np.array(embedding), np.array(embeddings[emb]['embedding']))
+            sim = np.round(cosine_similarity(np.array(embedding), np.array(embeddings[emb]['embedding']))[0][0],3)
             for threshold in thresholds.keys():
                 if sim >= threshold:
                     thresholds[threshold].append(file + ':' + hex(embeddings[emb]['address']))
