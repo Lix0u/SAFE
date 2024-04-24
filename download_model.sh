@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-python3 downloader.py -b
+python3 new_downloader.py
 echo 'Model downloaded and, hopefully, ready to run'
