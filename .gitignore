@@ -11,3 +11,4 @@ asm_embedding/__pycache__/__init__.cpython-310.pyc
 asm_embedding/__pycache__/FunctionAnalyzerRadare.cpython-310.pyc
 asm_embedding/__pycache__/FunctionNormalizer.cpython-310.pyc
 asm_embedding/__pycache__/InstructionsConverter.cpython-310.pyc
+downloader.py

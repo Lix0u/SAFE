@@ -9,20 +9,20 @@ import psutil
 
 sys.path.append(str(Path(__file__).parents[1]))
 
-output_file = "find_common_functions/common_functions_warzone_vscode_debug.json"
+output_file = "find_common_functions/common_functions_mirai_debug.json"
 
 safe = SAFE("data/safe.pb")
 
 debug = True
 
-folder = "database_sample/warzone_vscode"
+folder = "database_sample/mirai"
 
 def kill_radare_process():
         for proc in psutil.process_iter():
             if proc.name() == "radare2" and proc.ppid() == os.getpid():
                 proc.kill()
 
-common_functions = {}
+common_functions = {}   
 common_functions_no_embedding = {}
 
 files = os.listdir(folder)

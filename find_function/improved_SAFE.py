@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(__file__).split('/SAFE')[0]+'/SAFE')
 from sklearn.metrics.pairwise import cosine_similarity
 from asm_embedding.FunctionAnalyzerRadare import RadareFunctionAnalyzer
 from argparse import ArgumentParser, BooleanOptionalAction
@@ -5,16 +8,18 @@ from asm_embedding.FunctionNormalizer import FunctionNormalizer
 from asm_embedding.InstructionsConverter import InstructionsConverter
 from neural_network.SAFEEmbedder import SAFEEmbedder
 from find_function.manage_db.db_manager import JsonManager
-import sys
+import json
+import numpy as np
 
 
 class SAFE:
-    def __init__(self, model):
-        self.converter = InstructionsConverter("data/i2v/word2id.json") 
-        self.normalizer = FunctionNormalizer(max_instruction=150)
-        self.embedder = SAFEEmbedder(model)
-        self.embedder.loadmodel()
-        self.embedder.get_tensor()
+    def __init__(self, model=None):
+        if model is not None:
+            self.converter = InstructionsConverter("data/i2v/word2id.json") 
+            self.normalizer = FunctionNormalizer(max_instruction=150)
+            self.embedder = SAFEEmbedder(model)
+            self.embedder.loadmodel()
+            self.embedder.get_tensor()
 
     """
         returns the embedding vector of a function
@@ -32,9 +37,7 @@ class SAFE:
             print("Function not found")
             return None
         converted_instructions = self.converter.convert_to_ids(instructions_list)
-        instructions, length = self.normalizer.normalize_functions(
-            [converted_instructions]
-        )
+        instructions, length = self.normalizer.normalize_functions([converted_instructions])
         embedding = self.embedder.embedd(instructions, length)
         return embedding
 
@@ -50,33 +53,38 @@ class SAFE:
                 [converted_instructions]
             )
             embedding = self.embedder.embedd(instructions, length)
-            embeddings.append(embedding)
+            embeddings.append({"embedding":embedding, "address": functions[function]["address"]})
         return embeddings
 
     def add_embedding_to_db(self, embbeding, name, db_manager):
         db_manager.add(name, embbeding)
 
-    def check_executable(self, function_embedding, executable):
+    def check_executable(self, function_embedding, executable=None, embeddings_exe=None):
         max_similarity = 0
         address = 0
-        analyzer = RadareFunctionAnalyzer(executable, use_symbol=False, depth=0)
-        functions = analyzer.analyze()
-        instructions_list = None
-        for function in functions:
-            instructions_list = functions[function]["filtered_instructions"]
-            converted_instructions = self.converter.convert_to_ids(instructions_list)
-            instructions, length = self.normalizer.normalize_functions(
-                [converted_instructions]
-            )
-            embedding = self.embedder.embedd(instructions, length)
-            sim = cosine_similarity(embedding, function_embedding)
-            if sim > max_similarity:
-                max_similarity = sim
-                address = functions[function]["address"]
-        if instructions_list is None:
-            print("Function not found")
-            return None
-
+        if executable is not None:
+            analyzer = RadareFunctionAnalyzer(executable, use_symbol=False, depth=0)
+            functions = analyzer.analyze()
+            instructions_list = None
+            for function in functions:
+                instructions_list = functions[function]["filtered_instructions"]
+                converted_instructions = self.converter.convert_to_ids(instructions_list)
+                instructions, length = self.normalizer.normalize_functions(
+                    [converted_instructions]
+                )
+                embedding = self.embedder.embedd(instructions, length)
+                sim = cosine_similarity(embedding, function_embedding)
+                if sim > max_similarity:
+                    max_similarity = sim
+                    address = functions[function]["address"]
+        else:
+            if embeddings_exe is None:
+                print("an executable or a list of embeddings is required")
+            for embedding in embeddings_exe:
+                sim = cosine_similarity(embedding["embedding"], function_embedding)
+                if sim > max_similarity:
+                    max_similarity = sim
+                    address = embedding["address"]
         return max_similarity, address
     
     def get_embeddings_instruction_threshold(self, filename, instruction_threshold):
@@ -168,19 +176,29 @@ if __name__ == "__main__":
         required=False,
         help="Executable to analyze",
     )
+    parser.add_argument(
+        "-j",
+        "--json",
+        dest="embeddings_json",
+        required=False, 
+        help="json file containing the embeddings of the binary to analyze"
+    )
 
     args = parser.parse_args()
 
-    safe = SAFE(args.model)
+    if args.embeddings_json is not None:
+        safe = SAFE()
+    else:
+        safe = SAFE(args.model)
 
-    if args.add is None and args.executable is None:
-        parser.error("Either -add or -e is required.")
+    if args.add is None and args.executable is None and args.embeddings_json is None:
+        parser.error("Either -add or -e or -j is required.")
     file = args.file
     if args.address is not None:
         address = int(args.address, 16)
 
     if args.db is None:
-        db_path = "SAFE/find_function/manage_db/db.json" #TODO check this path
+        db_path = "find_function/manage_db/db.json"
     else:
         db_path = args.db
 
@@ -193,7 +211,7 @@ if __name__ == "__main__":
             )
         if args.name in db_manager.get_all_names():
             print(
-                "function"
+                "function "
                 + args.name
                 + " already in the database are you sure you want to overwrite it? (y/n)"
             )
@@ -207,16 +225,24 @@ if __name__ == "__main__":
         embedding = safe.embed_function(args.file, int(args.address, 16))
         safe.add_embedding_to_db(embedding, args.name, db_manager)
     else:
-        if args.executable is None:
-            parser.error("-e is required when comparing a function embedding.")
+        if args.executable is None and args.embeddings_json is None:
+            parser.error("-e or -j is required when comparing a function embedding.")
         if args.name is None:
+            if args.embeddings_json is not None:
+                with open(args.embeddings_json) as f:
+                    embeddings_exe = json.load(f)
+                for i in range(len(embeddings_exe)):
+                    embeddings_exe[i]["embedding"] = np.array(embeddings_exe[i]["embedding"])
+            else:
+                embeddings_exe = safe.embedd_executable(args.executable)
+            print ("there are ", len(embeddings_exe), " functions in the executable")
             keys = db_manager.get_all_names()
             max_similarity = 0
             best_address = 0
             for key in keys:
                 embedding = db_manager.get(key)
                 similarity, function_address = safe.check_executable(
-                    embedding, args.executable
+                    embedding, embeddings_exe = embeddings_exe
                 )
                 if similarity[0][0] > max_similarity:
                     max_similarity = similarity[0][0]
@@ -231,7 +257,7 @@ if __name__ == "__main__":
                     )
                 embedding = safe.embed_function(file, address)
             similarity, function_address = safe.check_executable(
-                embedding, args.executable
+                embedding, executable=args.executable
             )
             print(similarity[0][0])
             print(hex(function_address))

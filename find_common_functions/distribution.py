@@ -4,7 +4,7 @@ import sys
 sys.path.append(str(Path(__file__).parents[1]))
 from asm_embedding.FunctionAnalyzerRadare import RadareFunctionAnalyzer
 
-binary = "database_sample/wabot-christophe/9ca786e161159f6fb7aead62db463e5f2b42c7a3c3f6e1126d9462ca039cca47.exe"
+binary = "database_sample/warzone/d565677b0818122a241235109dc8ed5b69983f0fb231dabe683516ff3078cbff.exe"
 
 analyzer = RadareFunctionAnalyzer(binary, use_symbol=False, depth=0)
 functions = analyzer.analyze()
@@ -20,7 +20,7 @@ plt.title("Distribution of the number of instructions in the functions")
 plt.xlabel("Number of instructions")
 plt.ylabel("Number of functions")
 
-plt.savefig("distribution.png")
+plt.savefig("distribution.pdf", format="pdf")
 plt.clf()
 
 
@@ -32,7 +32,7 @@ plt.title("Distribution of the number of instructions in the functions (filtered
 plt.xlabel("Number of instructions")
 plt.ylabel("Number of functions")
 
-plt.savefig("filtered_distribution.png")
+plt.savefig("filtered_distribution.pdf", format="pdf")
 
 #print the number of functions
 print(len(functions))

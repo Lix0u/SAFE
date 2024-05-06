@@ -31,6 +31,8 @@ class JsonManager(Manager):
                 self.json_data = json.load(f)
 
     def save(self):
+        if not os.path.exists(os.path.dirname(self.path)):
+            os.makedirs(os.path.dirname(self.path))
         json.dump(self.json_data, open(self.path, "w"), indent=4)
 
     def add(self, key, item):
