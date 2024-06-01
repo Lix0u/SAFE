@@ -183,6 +183,7 @@ if __name__ == "__main__":
         required=False, 
         help="json file containing the embeddings of the binary to analyze"
     )
+    
 
     args = parser.parse_args()
 
@@ -227,7 +228,25 @@ if __name__ == "__main__":
     else:
         if args.executable is None and args.embeddings_json is None:
             parser.error("-e or -j is required when comparing a function embedding.")
-        if args.name is None:
+        if args.file is not None:
+            if args.address is None:
+                parser.error("-a is required when comparing a function embedding.")
+                sys.exit(1)
+            embedding_func = safe.embed_function(args.file, int(args.address, 16))
+            if args.embeddings_json is not None:
+                with open(args.embeddings_json) as f:
+                    embeddings_exe = json.load(f)
+                for i in range(len(embeddings_exe)):
+                    embeddings_exe[i]["embedding"] = np.array(embeddings_exe[i]["embedding"])
+            else:
+                embeddings_exe = safe.embedd_executable(args.executable)
+            similarity, function_address = safe.check_executable(
+                embedding_func, embeddings_exe=embeddings_exe
+            )
+            print(similarity[0][0])
+            print(hex(function_address))
+            exit(0)
+        elif args.name is None:
             if args.embeddings_json is not None:
                 with open(args.embeddings_json) as f:
                     embeddings_exe = json.load(f)

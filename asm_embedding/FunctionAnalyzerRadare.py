@@ -197,8 +197,8 @@ class RadareFunctionAnalyzer:
                 start_function_list = list(
                     filter(lambda x: x["offset"] == address, function_list)
                 )
-            if len(start_function_list) == 0:
-                hf = self.find_hidden_functions(function_list)
+            #if len(start_function_list) == 0:
+             #   hf = self.find_hidden_functions(function_list)
         functions_dict = {}
         if self.top_depth > 0:
             for my_function in function_list:

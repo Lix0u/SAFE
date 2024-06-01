@@ -15,12 +15,17 @@ def kill_radare_process():
         if proc.name() == "radare2" and proc.ppid() == os.getpid():
             proc.kill()
 
-def find_threshold(folder, binary, address, output, debug):
+def find_threshold(folder, binary, address, output, debug, minThreshold):
     safe = SAFE("data/safe.pb") 
+    thresholds = {}
+    minThreshold = float(minThreshold)
     if debug:
-        thresholds = {1: [], 0.98: [], 0.95: [], 0.93: [], 0.90: [],0.89:[],0.88:[]}
+        # thresholds = {1: [], 0.98: [], 0.95: [], 0.93: [], 0.90: [],0.89:[],0.88:[]}
+        for i in reversed(np.arange(minThreshold, 1.0, 0.01)):
+            thresholds[round(i,2)] = []
     else:
-        thresholds = {1: 0, 0.98: 0, 0.95: 0, 0.93: 0, 0.90: 0, 0.89:0,0.88:0}
+        for i in reversed(np.arange(minThreshold, 1.0, 0.01)):
+            thresholds[round(i,2)] = 0
 
     embedding = safe.embed_function( binary, address)
     if embedding is None:
@@ -83,6 +88,7 @@ if __name__ == '__main__':
     arg_parser.add_argument('-b', '--binary', help='Binary containing the function for which the threshold is to be found', required=True)
     arg_parser.add_argument('-a', '--address', help='Address of the function for which the threshold is to be found', required=True)
     arg_parser.add_argument('-o', '--output', help='Output file', required=True)
+    arg_parser.add_argument('-t', '--minThreshold', help='Minimum threshold', required=False, default=0.88)
     arg_parser.add_argument('--debug', help='Debug mode', action='store_true')
     args = arg_parser.parse_args()
     
@@ -99,4 +105,4 @@ if __name__ == '__main__':
     address = int(args.address,16)
     output = args.output
     
-    find_threshold(folder, binary, address, output, args.debug)
+    find_threshold(folder, binary, address, output, args.debug, args.minThreshold)

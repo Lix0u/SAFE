@@ -31,8 +31,9 @@ plt.hist(filtered_n_instructions, bins=np.arange(0, max(filtered_n_instructions)
 plt.title("Distribution of the number of instructions in the functions (filtered)")
 plt.xlabel("Number of instructions")
 plt.ylabel("Number of functions")
+plt.xlim([0,600])
 
-plt.savefig("filtered_distribution.pdf", format="pdf")
+plt.savefig("filtered_distribution_limited.pdf", format="pdf")
 
 #print the number of functions
 print(len(functions))

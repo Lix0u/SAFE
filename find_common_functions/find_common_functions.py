@@ -9,13 +9,13 @@ import psutil
 
 sys.path.append(str(Path(__file__).parents[1]))
 
-output_file = "find_common_functions/common_functions_mirai_debug.json"
+output_file = "find_common_functions/common_functions_satan_debug.json"
 
 safe = SAFE("data/safe.pb")
 
 debug = True
 
-folder = "database_sample/mirai"
+folder = "database_sample/satan/"
 
 def kill_radare_process():
         for proc in psutil.process_iter():

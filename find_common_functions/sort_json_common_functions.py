@@ -5,7 +5,7 @@ import numpy as np
 
 from matplotlib.pylab import f
 
-file = open("find_common_functions/common_functions_warzone_debug.json", "r")
+file = open("find_common_functions/common_functions_gonnacry_stripped_debug.json", "r")
 data = json.load(file)
 file.close()
 
@@ -23,7 +23,8 @@ def sort(data):
 
 def sort_better(data):
     #sort by count*n_instr
-    return sorted(data.values(), key=lambda x: x['count']*np.sqrt(x['n_instr']), reverse=True)
+    return sorted(data.values(), key=lambda x: x['count']*x['n_instr'], reverse=True)
 
 data = sort_better(data)
-json.dump(data, open("find_common_functions/common_functions_warzone_debug_sorted2.json", "w"), indent=4)
+data = data[:10]
+json.dump(data, open("find_common_functions/common_functions_gonnacry_stripped_debug_sorted_final.json", "w"), indent=4)
